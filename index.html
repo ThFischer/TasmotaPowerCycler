@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <script>
+      const get = (id) => {
+        return document.getElementById(id).value;
+      };
+      const set = (state) => {
+        const img = new Image();
+        img.src = `http://${host}/cs?c2=0&c1=Power%200${state}`;
+      }
+      const setStatus = (status) => {
+        document.getElementById('status').value = status;
+      }
+      let host;
+      let handle;
+      const onStart = () => {
+        if (!handle) {
+          setStatus('start');
+          host = get('host');
+          const on_off = [+get('on'), +get('off')];
+          const cycles = +get('cycles');
+          let i = 0;
+          const toggle = () => {
+            if (i < cycles * 2) {
+              set(+!(i % 2));
+              setStatus(`Cycle ${(i / 2 << 0) + 1}/${cycles}: ${i % 2 ? 'Off' : 'On'}`);
+              handle = setTimeout(toggle, on_off[i++ % 2] * 1e3);
+            }
+            if (i >= cycles * 2) {
+              onStop(true);
+            }
+          };
+          toggle();
+        }
+      };
+      onStop = (complete) => {
+        if (handle) {
+          clearTimeout(handle);
+          handle = undefined;
+          set(0);
+          if (!complete) {
+            setStatus('stopped');
+          }
+        }
+      }
+    </script>
+  </head>
+  <body bgcolor="#BBB">
+    <h2>Tasmota Power Cycler</h2>
+    <form onsubmit="onStart(); return false;">
+      <table>
+        <tr><td>Host:</td><td><input id="host" value="My-Tasmota"> (IP address or host name)</td></tr>
+        <tr><td>On:</td><td><input id="on" type="number" min="1" value="5"/> (in sec.)</td></tr>
+        <tr><td>Off:</td><td><input id="off" type="number" min="1" value="115"/> (in sec.)</td></tr>
+        <tr><td>Cycles:</td><td><input id="cycles" type="number" min="1" value="20"/></td></tr>
+        <tr><td></td><td><button type="submit">Start</button> <button onclick="onStop(); return false;">Stop</button></td></tr>
+        <tr><td>Status:</td><td><input disabled="disabled" id="status" value=""/></td></tr>
+      </table>
+    </form>
+  </body>
+</html>
