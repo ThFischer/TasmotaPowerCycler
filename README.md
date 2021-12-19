@@ -9,5 +9,5 @@ Tested with Tasmota v10.0
 \
 &nbsp;
 
-![screenshot](screenshot.png)
+![screenshot](screenshot.png)  
 ![NOUS A1](NOUS_A1.jpg)
