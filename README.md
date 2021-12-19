@@ -1,5 +1,5 @@
 # Tasmota Power Cycler
-### *Automatize power cycling for a Tasmota-Plug within a web browser*
+### *Automatize periodical power cycling for a [Tasmota](https://tasmota.github.io/docs/)-Plug within a web browser*
 \
 &nbsp;
 ## Just one (my) use case:
